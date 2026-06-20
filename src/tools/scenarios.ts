@@ -12,7 +12,7 @@ export async function listScenarios(config: Config): Promise<unknown> {
 }
 
 export async function getScenario(config: Config, args: { id: string }): Promise<unknown> {
-  return apiRequest(config, { method: "GET", path: `/api/v1/scenarios/${args.id}`, auth: true });
+  return apiRequest(config, { method: "GET", path: `/api/v1/scenarios/${encodeURIComponent(args.id)}`, auth: true });
 }
 
 export async function saveScenario(config: Config, args: { name: string; inputs: unknown }): Promise<unknown> {
@@ -31,12 +31,12 @@ export async function updateScenario(
   if (args.inputs !== undefined) {
     const body: { inputs: unknown; name?: string } = { inputs: args.inputs };
     if (args.name !== undefined) body.name = args.name;
-    return apiRequest(config, { method: "PUT", path: `/api/v1/scenarios/${args.id}`, auth: true, body });
+    return apiRequest(config, { method: "PUT", path: `/api/v1/scenarios/${encodeURIComponent(args.id)}`, auth: true, body });
   }
   if (args.name !== undefined) {
     return apiRequest(config, {
       method: "PATCH",
-      path: `/api/v1/scenarios/${args.id}`,
+      path: `/api/v1/scenarios/${encodeURIComponent(args.id)}`,
       auth: true,
       body: { name: args.name },
     });
@@ -45,7 +45,7 @@ export async function updateScenario(
 }
 
 export async function deleteScenario(config: Config, args: { id: string }): Promise<unknown> {
-  return apiRequest(config, { method: "DELETE", path: `/api/v1/scenarios/${args.id}`, auth: true });
+  return apiRequest(config, { method: "DELETE", path: `/api/v1/scenarios/${encodeURIComponent(args.id)}`, auth: true });
 }
 
 export function registerScenarioTools(server: McpServer, config: Config): void {

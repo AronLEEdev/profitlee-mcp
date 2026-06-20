@@ -14,6 +14,9 @@ const REASON_MESSAGES: Record<string, string> = {
   not_found: "Scenario not found.",
 };
 
+/** Abort a request that takes longer than this so a hung API can't hang the tool call. */
+const REQUEST_TIMEOUT_MS = 15_000;
+
 export interface RequestOptions {
   method: string;
   /** Path beginning with a slash, e.g. "/api/v1/calculate". */
@@ -38,6 +41,7 @@ export async function apiRequest<T>(config: Config, opts: RequestOptions): Promi
       method: opts.method,
       headers,
       body: opts.body !== undefined ? JSON.stringify(opts.body) : undefined,
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     });
   } catch (e) {
     const detail = e instanceof Error ? e.message : "network error";
