@@ -1,6 +1,6 @@
 {
   "name": "profitlee-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for the Profitlee ecommerce profit calculator (Amazon FBA/FBM + TikTok Shop).",
   "license": "MIT",
   "author": "AronLEE <aronleedev@gmail.com>",
@@ -26,7 +26,7 @@
     "seller",
     "profitlee"
   ],
-  "mcpName": "io.github.aronleedev/profitlee-mcp",
+  "mcpName": "io.github.AronLEEdev/profitlee-mcp",
   "type": "module",
   "bin": { "profitlee-mcp": "dist/index.js" },
   "files": ["dist", "README.md", "LICENSE"],

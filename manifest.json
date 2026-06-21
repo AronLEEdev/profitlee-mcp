@@ -1,0 +1,63 @@
+{
+  "manifest_version": "0.2",
+  "name": "profitlee-mcp",
+  "version": "0.1.1",
+  "description": "MCP server for the Profitlee ecommerce profit calculator (Amazon FBA/FBM + TikTok Shop).",
+  "author": {
+    "name": "AronLEE <aronleedev@gmail.com>",
+    "email": "aronleedev@gmail.com",
+    "url": "https://profitlee.com"
+  },
+  "homepage": "https://profitlee.com",
+  "documentation": "https://github.com/AronLEEdev/profitlee-mcp",
+  "support": "https://github.com/AronLEEdev/profitlee-mcp",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/dist/index.js"
+      ],
+      "env": {
+        "PROFITLEE_API_TOKEN": "${user_config.profitlee_api_token}",
+        "PROFITLEE_BASE_URL": "${user_config.profitlee_base_url}"
+      }
+    }
+  },
+  "user_config": {
+    "profitlee_api_token": {
+      "type": "string",
+      "title": "Profitlee API Token",
+      "description": "Optional Profitlee Pro API token for scenario tools.",
+      "required": false
+    },
+    "profitlee_base_url": {
+      "type": "string",
+      "title": "Profitlee Base URL",
+      "description": "Override the Profitlee API origin.",
+      "required": false,
+      "default": "https://profitlee.com"
+    }
+  },
+  "keywords": [
+    "Amazon FBA calculator",
+    "Amazon FBM calculator",
+    "TikTok Shop calculator",
+    "TikTok Shop seller fees",
+    "Fulfilled by TikTok FBT calculator",
+    "Amazon fees Germany Japan",
+    "profit margin calculator",
+    "Amazon import duty VAT",
+    "ecommerce profit calculator",
+    "marketplace profit calculator",
+    "seller fee calculator",
+    "online seller profit calculator",
+    "ecommerce profit margin calculator"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AronLEEdev/profitlee-mcp.git"
+  }
+}

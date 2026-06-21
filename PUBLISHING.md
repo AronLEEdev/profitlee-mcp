@@ -35,7 +35,7 @@ npx -y profitlee-mcp      # should print "profitlee-mcp running on stdio" to std
 
 The [official registry](https://github.com/modelcontextprotocol/registry) verifies
 npm ownership by matching the `mcpName` field in the **published** package.json
-(already set to `io.github.aronleedev/profitlee-mcp`) — so publish to npm first.
+(already set to `io.github.AronLEEdev/profitlee-mcp`) — so publish to npm first.
 
 ```bash
 # Install the publisher CLI (see the registry repo for the current install method)
@@ -48,7 +48,7 @@ mcp-publisher publish   # reads ./server.json
 
 > The registry schema evolves. If `server.json` fails validation, run
 > `mcp-publisher init` to regenerate it against the current schema, then
-> re-apply our `environment_variables` and commit the result.
+> re-apply our `environmentVariables` and commit the result.
 
 ## 4. Other directories (optional)
 

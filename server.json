@@ -1,29 +1,29 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
-  "name": "io.github.aronleedev/profitlee-mcp",
+  "name": "io.github.AronLEEdev/profitlee-mcp",
   "description": "MCP server for the Profitlee ecommerce profit calculator (Amazon FBA/FBM + TikTok Shop).",
   "repository": {
     "url": "https://github.com/AronLEEdev/profitlee-mcp",
     "source": "github"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "packages": [
     {
-      "registry_type": "npm",
+      "registryType": "npm",
       "identifier": "profitlee-mcp",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "transport": { "type": "stdio" },
-      "environment_variables": [
+      "environmentVariables": [
         {
           "name": "PROFITLEE_API_TOKEN",
           "description": "Profitlee Pro API token (eck_live_...). Required only for the scenario tools; calculate_profit works without it.",
-          "is_required": false,
-          "is_secret": true
+          "isRequired": false,
+          "isSecret": true
         },
         {
           "name": "PROFITLEE_BASE_URL",
           "description": "Override the Profitlee API origin (default https://profitlee.com). For testing.",
-          "is_required": false
+          "isRequired": false
         }
       ]
     }

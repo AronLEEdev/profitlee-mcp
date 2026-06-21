@@ -2,12 +2,13 @@
 
 [![npm version](https://img.shields.io/npm/v/profitlee-mcp.svg)](https://www.npmjs.com/package/profitlee-mcp)
 [![license](https://img.shields.io/npm/l/profitlee-mcp.svg)](./LICENSE)
+[![smithery badge](https://smithery.ai/badge/aronleedev/profitlee-mcp)](https://smithery.ai/servers/aronleedev/profitlee-mcp)
 
 An [MCP](https://modelcontextprotocol.io) server for [Profitlee](https://profitlee.com) — compute **country-accurate Amazon FBA/FBM and TikTok Shop profit margins**, and manage saved scenarios, from any MCP client (Claude Desktop, Claude Code, Cursor, …).
 
 `calculate_profit` is **free and needs no token**. The scenario tools require a Profitlee Pro API token.
 
-> MCP registry name: `io.github.aronleedev/profitlee-mcp`
+> MCP registry name: `io.github.AronLEEdev/profitlee-mcp`
 
 ## Quick start
 
