@@ -10,6 +10,11 @@ describe("toToolResult", () => {
     expect(r.content[0].text).toContain('"mode": "fba"');
   });
 
+  it("adds structured content for tools with output schemas", async () => {
+    const r = await toToolResult(async () => ({ mode: "fba", net: 1.7 }), (value) => ({ result: value }));
+    expect(r.structuredContent).toEqual({ result: { mode: "fba", net: 1.7 } });
+  });
+
   it("maps a ProfitleeError to an error result with its message", async () => {
     const r = await toToolResult(async () => {
       throw new ProfitleeError("Saved scenarios require a Profitlee Pro plan.");

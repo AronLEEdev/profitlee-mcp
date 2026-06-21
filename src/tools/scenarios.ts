@@ -3,9 +3,9 @@ import { z } from "zod";
 import { apiRequest, ProfitleeError } from "../client.js";
 import type { Config } from "../config.js";
 import { toToolResult } from "../result.js";
-import { calcInputShape } from "../schemas.js";
+import { calcInputShape, scenarioListOutputShape, scenarioMutationOutputShape, scenarioOutputShape } from "../schemas.js";
 
-const idShape = { id: z.string().min(1).describe("Scenario id.") } as const;
+const idShape = { id: z.string().min(1).describe("Saved Profitlee scenario id returned by list_scenarios or save_scenario.") } as const;
 
 export async function listScenarios(config: Config): Promise<unknown> {
   return apiRequest(config, { method: "GET", path: "/api/v1/scenarios", auth: true });
@@ -53,61 +53,104 @@ export function registerScenarioTools(server: McpServer, config: Config): void {
     "list_scenarios",
     {
       title: "List saved scenarios",
-      description: "List the caller's saved Profitlee scenarios. Requires a Pro API token.",
+      description:
+        "List saved Profitlee profit scenarios for the authenticated Pro account. Use this before get_scenario, update_scenario, or delete_scenario when you need a scenario id. Requires PROFITLEE_API_TOKEN.",
       inputSchema: {},
-      annotations: { readOnlyHint: true, openWorldHint: true },
+      outputSchema: scenarioListOutputShape,
+      annotations: {
+        title: "List saved profit scenarios",
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
     },
-    async () => toToolResult(() => listScenarios(config)),
+    async () => toToolResult(() => listScenarios(config), (response) => ({ response })),
   );
 
   server.registerTool(
     "get_scenario",
     {
       title: "Get a scenario",
-      description: "Fetch one saved scenario (inputs + outputs) by id. Requires a Pro API token.",
+      description:
+        "Fetch one saved Profitlee scenario by id, including the original calculator inputs and the computed profit output. Requires PROFITLEE_API_TOKEN.",
       inputSchema: idShape,
-      annotations: { readOnlyHint: true, openWorldHint: true },
+      outputSchema: scenarioOutputShape,
+      annotations: {
+        title: "Get saved profit scenario",
+        readOnlyHint: true,
+        destructiveHint: false,
+        idempotentHint: true,
+        openWorldHint: true,
+      },
     },
-    async (args) => toToolResult(() => getScenario(config, args)),
+    async (args) => toToolResult(() => getScenario(config, args), (response) => ({ response })),
   );
 
   server.registerTool(
     "save_scenario",
     {
       title: "Save a scenario",
-      description: "Save a named scenario from calculator inputs. Outputs are computed server-side. Requires a Pro API token.",
+      description:
+        "Create a saved Profitlee scenario from a scenario name and calculator inputs. Profitlee validates the inputs and computes outputs server-side. Requires PROFITLEE_API_TOKEN.",
       inputSchema: {
-        name: z.string().min(1).max(120).describe("Scenario name."),
-        inputs: z.object(calcInputShape).describe("Calculator inputs, same shape as calculate_profit."),
+        name: z.string().min(1).max(120).describe("Human-readable scenario name, up to 120 characters."),
+        inputs: z.object(calcInputShape).describe("Calculator inputs using the same field meanings and units as calculate_profit."),
       },
-      annotations: { openWorldHint: true },
+      outputSchema: scenarioMutationOutputShape,
+      annotations: {
+        title: "Save profit scenario",
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: true,
+      },
     },
-    async (args) => toToolResult(() => saveScenario(config, args)),
+    async (args) => toToolResult(() => saveScenario(config, args), (response) => ({ response })),
   );
 
   server.registerTool(
     "update_scenario",
     {
       title: "Update a scenario",
-      description: "Update a saved scenario: pass inputs to replace and recompute, and/or name to rename. Requires a Pro API token.",
+      description:
+        "Update an existing Profitlee scenario by id. Pass name to rename it, inputs to replace calculator inputs and recompute outputs, or both. Requires PROFITLEE_API_TOKEN.",
       inputSchema: {
         ...idShape,
-        name: z.string().min(1).max(120).optional().describe("New name (optional)."),
-        inputs: z.object(calcInputShape).optional().describe("Replacement calculator inputs (optional)."),
+        name: z.string().min(1).max(120).optional().describe("Optional new scenario name, up to 120 characters."),
+        inputs: z
+          .object(calcInputShape)
+          .optional()
+          .describe("Optional replacement calculator inputs using the same field meanings and units as calculate_profit."),
       },
-      annotations: { openWorldHint: true },
+      outputSchema: scenarioMutationOutputShape,
+      annotations: {
+        title: "Update profit scenario",
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: false,
+        openWorldHint: true,
+      },
     },
-    async (args) => toToolResult(() => updateScenario(config, args)),
+    async (args) => toToolResult(() => updateScenario(config, args), (response) => ({ response })),
   );
 
   server.registerTool(
     "delete_scenario",
     {
       title: "Delete a scenario",
-      description: "Delete a saved scenario by id. Requires a Pro API token.",
+      description:
+        "Delete one saved Profitlee scenario by id. This permanently removes the saved scenario from the authenticated Pro account. Requires PROFITLEE_API_TOKEN.",
       inputSchema: idShape,
-      annotations: { destructiveHint: true, openWorldHint: true },
+      outputSchema: scenarioMutationOutputShape,
+      annotations: {
+        title: "Delete profit scenario",
+        readOnlyHint: false,
+        destructiveHint: true,
+        idempotentHint: false,
+        openWorldHint: true,
+      },
     },
-    async (args) => toToolResult(() => deleteScenario(config, args)),
+    async (args) => toToolResult(() => deleteScenario(config, args), (response) => ({ response })),
   );
 }

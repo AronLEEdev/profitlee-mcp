@@ -57,3 +57,29 @@ export const calcInputShape = {
 /** Object form for runtime parsing of calculator inputs. */
 export const calcInputObject = z.object(calcInputShape);
 export type CalcInput = z.infer<typeof calcInputObject>;
+
+export const calculateProfitOutputShape = {
+  result: z
+    .unknown()
+    .describe(
+      "Profit calculation result from Profitlee, including fee breakdowns, landed cost, gross/net margin, and monthly P&L fields.",
+    ),
+} as const;
+
+export const scenarioListOutputShape = {
+  response: z
+    .unknown()
+    .describe("Profitlee API response containing the caller's saved scenarios and their scenario metadata."),
+} as const;
+
+export const scenarioOutputShape = {
+  response: z
+    .unknown()
+    .describe("Profitlee API response for one saved scenario, including scenario inputs and computed outputs."),
+} as const;
+
+export const scenarioMutationOutputShape = {
+  response: z
+    .unknown()
+    .describe("Profitlee API response confirming the saved scenario create, update, or delete operation."),
+} as const;

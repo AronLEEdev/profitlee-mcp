@@ -7,7 +7,7 @@ import { registerScenarioTools } from "./tools/scenarios.js";
 
 async function main(): Promise<void> {
   const config = loadConfig();
-  const server = new McpServer({ name: "profitlee-mcp", version: "0.1.0" });
+  const server = new McpServer({ name: "profitlee-mcp", version: "0.1.1" });
 
   registerCalculateTool(server, config);
   registerScenarioTools(server, config);
