@@ -3,6 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/profitlee-mcp.svg)](https://www.npmjs.com/package/profitlee-mcp)
 [![license](https://img.shields.io/npm/l/profitlee-mcp.svg)](./LICENSE)
 [![smithery badge](https://smithery.ai/badge/aronleedev/profitlee-mcp)](https://smithery.ai/servers/aronleedev/profitlee-mcp)
+[![Glama MCP Server](https://glama.ai/mcp/servers/AronLEEdev/profitlee-mcp/badges/score.svg)](https://glama.ai/mcp/servers/AronLEEdev/profitlee-mcp)
 
 An [MCP](https://modelcontextprotocol.io) server for [Profitlee](https://profitlee.com) — compute **country-accurate Amazon FBA/FBM and TikTok Shop profit margins**, and manage saved scenarios, from any MCP client (Claude Desktop, Claude Code, Cursor, …).
 
