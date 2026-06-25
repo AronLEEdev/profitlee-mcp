@@ -48,6 +48,17 @@ export async function deleteScenario(config: Config, args: { id: string }): Prom
   return apiRequest(config, { method: "DELETE", path: `/api/v1/scenarios/${encodeURIComponent(args.id)}`, auth: true });
 }
 
+export async function copyScenario(config: Config, args: { id: string; name?: string }): Promise<unknown> {
+  const body: { name?: string } = {};
+  if (args.name !== undefined) body.name = args.name;
+  return apiRequest(config, {
+    method: "POST",
+    path: `/api/v1/scenarios/${encodeURIComponent(args.id)}/copy`,
+    auth: true,
+    body,
+  });
+}
+
 export function registerScenarioTools(server: McpServer, config: Config): void {
   server.registerTool(
     "list_scenarios",
@@ -152,5 +163,32 @@ export function registerScenarioTools(server: McpServer, config: Config): void {
       },
     },
     async (args) => toToolResult(() => deleteScenario(config, args), (response) => ({ response })),
+  );
+
+  server.registerTool(
+    "copy_scenario",
+    {
+      title: "Copy a scenario",
+      description:
+        'Duplicate an existing Profitlee scenario into a new one. Profitlee reads the source inputs server-side and recomputes outputs, so the copy reflects the current fee tables. The new name defaults to "Copy of <source name>" unless you pass name. Counts against the saved-scenario limit. Requires PROFITLEE_API_TOKEN.',
+      inputSchema: {
+        ...idShape,
+        name: z
+          .string()
+          .min(1)
+          .max(120)
+          .optional()
+          .describe('Optional name for the copy, up to 120 characters. Defaults to "Copy of <source name>".'),
+      },
+      outputSchema: scenarioMutationOutputShape,
+      annotations: {
+        title: "Copy profit scenario",
+        readOnlyHint: false,
+        destructiveHint: false,
+        idempotentHint: false,
+        openWorldHint: true,
+      },
+    },
+    async (args) => toToolResult(() => copyScenario(config, args), (response) => ({ response })),
   );
 }

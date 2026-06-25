@@ -43,6 +43,7 @@ Requires Node.js 20+.
 | `save_scenario` | Pro token | Save a named scenario from calculator inputs. |
 | `update_scenario` | Pro token | Rename and/or replace a scenario's inputs. |
 | `delete_scenario` | Pro token | Delete a scenario by id. |
+| `copy_scenario` | Pro token | Duplicate a scenario into a new one ("Copy of …"). |
 
 ### `calculate_profit` inputs
 
