@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { deleteScenario, getScenario, listScenarios, saveScenario, updateScenario } from "./scenarios.js";
+import { copyScenario, deleteScenario, getScenario, listScenarios, saveScenario, updateScenario } from "./scenarios.js";
 
 const config = { baseUrl: "https://profitlee.com", apiToken: "eck_live_tok" };
 const noToken = { baseUrl: "https://profitlee.com", apiToken: undefined };
@@ -93,6 +93,23 @@ describe("scenario tools", () => {
     vi.stubGlobal("fetch", f);
     await deleteScenario(config, { id: "abc" });
     expect(lastInit(f).method).toBe("DELETE");
+  });
+
+  it("copyScenario POSTs /api/v1/scenarios/:id/copy with a name", async () => {
+    const f = ok({ scenario: { id: "copy1", name: "Copy of Test" } }, 201);
+    vi.stubGlobal("fetch", f);
+    await copyScenario(config, { id: "abc", name: "Copy of Test" });
+    const init = lastInit(f);
+    expect(f.mock.calls[0][0]).toBe("https://profitlee.com/api/v1/scenarios/abc/copy");
+    expect(init.method).toBe("POST");
+    expect(JSON.parse(init.body as string)).toEqual({ name: "Copy of Test" });
+  });
+
+  it("copyScenario omits the body name when none is given (server defaults)", async () => {
+    const f = ok({ scenario: { id: "copy2" } }, 201);
+    vi.stubGlobal("fetch", f);
+    await copyScenario(config, { id: "abc" });
+    expect(JSON.parse(lastInit(f).body as string)).toEqual({});
   });
 
   it("scenario tools require a token (preflight, no fetch)", async () => {
