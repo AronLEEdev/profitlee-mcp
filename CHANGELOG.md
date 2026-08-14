@@ -8,6 +8,8 @@ Dates are npm publish dates.
 
 ## [Unreleased]
 
+## [0.2.1] — 2026-08-14
+
 ### Fixed
 
 - **All 7 tools were uncallable on clients that validate with JSON Schema 2020-12.**
@@ -60,7 +62,7 @@ Dates are npm publish dates.
 
 ### Note
 
-This release introduced the draft-07 `outputSchema` defect fixed in Unreleased —
+This release introduced the draft-07 `outputSchema` defect fixed in 0.2.1 —
 the four `*OutputShape` schemas arrived as part of the tool metadata work. **0.2.0 is
 unusable on clients validating with Ajv 2020-12**, which includes most MCP clients.
 Versions 0.1.0 and 0.1.1 declared no `outputSchema` and are unaffected.
@@ -88,7 +90,8 @@ Initial release.
 - Saved-scenario tools requiring `PROFITLEE_API_TOKEN`: `list_scenarios`,
   `get_scenario`, `save_scenario`, `update_scenario`, `delete_scenario`.
 
-[Unreleased]: https://github.com/AronLEEdev/profitlee-mcp/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/AronLEEdev/profitlee-mcp/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/AronLEEdev/profitlee-mcp/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/AronLEEdev/profitlee-mcp/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/AronLEEdev/profitlee-mcp/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/AronLEEdev/profitlee-mcp/releases/tag/v0.1.0
