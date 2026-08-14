@@ -3,7 +3,7 @@ import { z } from "zod";
 import { apiRequest, ProfitleeError } from "../client.js";
 import type { Config } from "../config.js";
 import { toToolResult } from "../result.js";
-import { calcInputShape, scenarioListOutputShape, scenarioMutationOutputShape, scenarioOutputShape } from "../schemas.js";
+import { calcInputShape } from "../schemas.js";
 
 const idShape = { id: z.string().min(1).describe("Saved Profitlee scenario id returned by list_scenarios or save_scenario.") } as const;
 
@@ -67,7 +67,6 @@ export function registerScenarioTools(server: McpServer, config: Config): void {
       description:
         "List saved Profitlee profit scenarios for the authenticated Pro account. Use this before get_scenario, update_scenario, or delete_scenario when you need a scenario id. Requires PROFITLEE_API_TOKEN.",
       inputSchema: {},
-      outputSchema: scenarioListOutputShape,
       annotations: {
         title: "List saved profit scenarios",
         readOnlyHint: true,
@@ -86,7 +85,6 @@ export function registerScenarioTools(server: McpServer, config: Config): void {
       description:
         "Fetch one saved Profitlee scenario by id, including the original calculator inputs and the computed profit output. Requires PROFITLEE_API_TOKEN.",
       inputSchema: idShape,
-      outputSchema: scenarioOutputShape,
       annotations: {
         title: "Get saved profit scenario",
         readOnlyHint: true,
@@ -108,7 +106,6 @@ export function registerScenarioTools(server: McpServer, config: Config): void {
         name: z.string().min(1).max(120).describe("Human-readable scenario name, up to 120 characters."),
         inputs: z.object(calcInputShape).describe("Calculator inputs using the same field meanings and units as calculate_profit."),
       },
-      outputSchema: scenarioMutationOutputShape,
       annotations: {
         title: "Save profit scenario",
         readOnlyHint: false,
@@ -134,7 +131,6 @@ export function registerScenarioTools(server: McpServer, config: Config): void {
           .optional()
           .describe("Optional replacement calculator inputs using the same field meanings and units as calculate_profit."),
       },
-      outputSchema: scenarioMutationOutputShape,
       annotations: {
         title: "Update profit scenario",
         readOnlyHint: false,
@@ -153,7 +149,6 @@ export function registerScenarioTools(server: McpServer, config: Config): void {
       description:
         "Delete one saved Profitlee scenario by id. This permanently removes the saved scenario from the authenticated Pro account. Requires PROFITLEE_API_TOKEN.",
       inputSchema: idShape,
-      outputSchema: scenarioMutationOutputShape,
       annotations: {
         title: "Delete profit scenario",
         readOnlyHint: false,
@@ -180,7 +175,6 @@ export function registerScenarioTools(server: McpServer, config: Config): void {
           .optional()
           .describe('Optional name for the copy, up to 120 characters. Defaults to "Copy of <source name>".'),
       },
-      outputSchema: scenarioMutationOutputShape,
       annotations: {
         title: "Copy profit scenario",
         readOnlyHint: false,

@@ -7,12 +7,20 @@ Run these yourself — they require your npm and registry credentials.
 
 ```bash
 npm ci          # clean install
-npm test        # 27 tests should pass
+npm test        # all tests should pass
 npm run build   # tsc -> dist/, exit 0
 ```
 
-Bump the version in **both** `package.json` and `server.json` (keep them in
-sync) following semver. They are `0.1.0` for the first release.
+Bump the version in **all three** of `package.json`, `server.json`, and
+`manifest.json` (keep them in sync) following semver. The version reported in the
+MCP handshake is read from `package.json`, so it needs no separate bump.
+
+**Update `CHANGELOG.md` before every publish.** Move the `[Unreleased]` entries
+under a new heading for the version being released, dated with the publish date,
+and add a fresh empty `[Unreleased]` section above it. Update the compare links at
+the bottom of the file. A published version with no changelog entry is a release
+nobody can audit later — npm versions are immutable, so the changelog is the only
+place a mistake can be explained after the fact.
 
 ## 2. Publish to npm
 
@@ -65,6 +73,9 @@ step 3, so do that first.
 ## 5. Tag the release
 
 ```bash
-git tag v0.1.0
+git tag v$(node -p "require('./package.json').version")
 git push --tags
 ```
+
+Tag every published version. The `CHANGELOG.md` compare links assume a `vX.Y.Z`
+tag exists for each release.

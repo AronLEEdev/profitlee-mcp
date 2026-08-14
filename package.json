@@ -29,7 +29,7 @@
   "mcpName": "io.github.AronLEEdev/profitlee-mcp",
   "type": "module",
   "bin": { "profitlee-mcp": "dist/index.js" },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": ["dist", "README.md", "CHANGELOG.md", "LICENSE"],
   "engines": { "node": ">=20" },
   "publishConfig": { "access": "public" },
   "scripts": {
